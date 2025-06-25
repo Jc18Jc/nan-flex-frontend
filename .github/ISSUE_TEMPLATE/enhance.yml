@@ -1,0 +1,17 @@
+name: Enhancement Request
+description: 기존 기능을 개선하는 요청을 작성합니다.
+title: "[Enhance]: "
+labels: ["enhance"]
+body:
+  - type: input
+    id: epic
+    attributes:
+      label: "🔗 연관된 Epic Issue"
+      description: "이 개선이 속하는 Epic Issue 번호를 입력하세요 (예: #10)"
+      placeholder: "#EpicIssueNumber"
+
+  - type: textarea
+    id: enhancement_description
+    attributes:
+      label: "✨ 개선할 사항"
+      description: "어떤 부분을 개선해야 하는지 설명해주세요."

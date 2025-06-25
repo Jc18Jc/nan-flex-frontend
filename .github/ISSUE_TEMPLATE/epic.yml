@@ -1,0 +1,24 @@
+name: Epic Issue
+description: 큰 기능이나 프로젝트 단위를 추적하는 Epic 이슈를 만듭니다.
+title: "[Epic]: "
+labels: ["epic"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: "🎯 목표"
+      description: "이 Epic에서 이루고자 하는 목표를 설명해주세요."
+      placeholder: "예: 사용자 로그인 및 인증 시스템 구축"
+  
+  - type: textarea
+    id: sub_tasks
+    attributes:
+      label: "📌 하위 이슈 (자동 업데이트됨)"
+      description: "이 Epic에 속하는 작업들"
+      value: "- [ ] "  # 하위 이슈가 생성되면 자동으로 추가됨
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: "📖 설명"
+      description: "Epic에 대한 상세한 설명을 추가하세요."

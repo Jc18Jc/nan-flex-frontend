@@ -1,0 +1,17 @@
+name: Feature Request
+description: 새로운 기능을 추가하는 이슈를 작성합니다.
+title: "[Feat]: "
+labels: ["feat"]
+body:
+  - type: input
+    id: epic
+    attributes:
+      label: "🔗 연관된 Epic Issue"
+      description: "이 기능이 속하는 Epic Issue 번호를 입력하세요 (예: #10)"
+      placeholder: "#EpicIssueNumber"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 설명"
+      description: "추가할 기능에 대해 설명해주세요."

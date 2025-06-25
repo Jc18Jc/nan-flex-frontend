@@ -1,0 +1,51 @@
+name: Update Epic Issue
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  update-epic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Epic Issue Number
+        id: extract_epic
+        run: |
+          EPIC=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep -oE '#[0-9]+' | head -n 1)
+          if [[ -n "$EPIC" ]]; then
+            echo "EPIC_ISSUE=$EPIC" >> $GITHUB_ENV
+          fi
+
+      - name: Add Issue to Epic at Correct Position
+        if: env.EPIC_ISSUE != ''
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const epicIssueNumber = process.env.EPIC_ISSUE.replace("#", "");
+            const issueNumber = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const { data: epicIssue } = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: epicIssueNumber
+            });
+
+            let body = epicIssue.body;
+            const marker = "📌 하위 이슈 (자동 업데이트됨)"; // ✅ 특정 위치 찾기
+            const issueEntry = `\n- [ ] #${issueNumber}`;
+
+            if (body.includes(marker)) {
+                const parts = body.split(marker);
+                body = parts[0] + marker + issueEntry + parts[1];
+            } else {
+                body += issueEntry; // 만약 marker가 없으면 기존처럼 추가
+            }
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: epicIssueNumber,
+              body: body
+            });
