@@ -19,7 +19,7 @@ jobs:
         if: env.EPIC_ISSUE != ''
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.MY_GITHUB_TOKEN }}
           script: |
             const epicIssueNumber = process.env.EPIC_ISSUE.replace("#", "");
             const issueNumber = context.issue.number;
