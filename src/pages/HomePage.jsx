@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -46,6 +48,7 @@ function HomePage() {
         {movies.map((m) => (
           <div
             key={m.id}
+            onClick={() => navigate(`/media/${m.id}`)}
             style={{
               backgroundColor: "#1e1e1e",
               borderRadius: "8px",
@@ -53,7 +56,11 @@ function HomePage() {
               display: "flex",
               flexDirection: "column",
               height: "300px",
+              cursor: "pointer",
+              transition: "transform 0.2s ease",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
           >
             <img
               src={`${import.meta.env.VITE_BASE_URL}/images/${m.thumbnailName}`}

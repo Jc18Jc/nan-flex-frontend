@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -14,7 +14,7 @@ function ProtectedRoute({ children }) {
   }, []);
 
   if (isAuthenticated === null) return <div>세션 확인 중...</div>;
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? <Outlet/> : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;
