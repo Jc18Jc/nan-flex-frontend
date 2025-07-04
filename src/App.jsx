@@ -9,6 +9,7 @@ import SignupPage from "./pages/SignupPage";
 import ProfileCreatePage from "./pages/ProfileCreatePage";
 import MyPage from "./pages/MyPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="home" element = {<HomePage/>}/>
           <Route path="mypage" element = {<MyPage/>}/>
           <Route path="edit-profile" element = {<ProfileEditPage/>}/>
+          <Route path="search" element = {<SearchPage/>}/>
         </Route>
 
         <Route path="*" element = {<AuthRedirect/>}/>

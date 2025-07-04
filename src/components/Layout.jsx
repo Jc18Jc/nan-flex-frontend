@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchButton from "./SearchButton";
+import SearchModal from "./SearchModal";
 
-function Layout({ children, showLogout = true, showNickname = true}) {
-    const navigate = useNavigate();
+function Layout({ children, showLogout = false, showNickname = true, showSearchButton = false}) {
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (!showNickname) return;
@@ -47,17 +51,16 @@ function Layout({ children, showLogout = true, showNickname = true}) {
           }}
         >
           🎬 NanFlex</div>
-        
-        { showLogout && (
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div 
-            onClick={() => navigate(`/mypage`)}
+            <div
+              onClick={() => navigate(`/mypage`)}
               style={{
                 cursor: "pointer",
                 textDecoration: "underline"
               }}>
-            {nickname && <div>{nickname} 님</div>}
+              {nickname && <div>{nickname} 님</div>}
             </div>
+            { showLogout && (
               <button
                 onClick={async () => {
                   await fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
@@ -74,10 +77,25 @@ function Layout({ children, showLogout = true, showNickname = true}) {
                   cursor: "pointer",
                 }}
               >
-              로그아웃
-            </button>
-          </div>
-        )}
+                로그아웃
+              </button>
+            )}
+            { showSearchButton && (
+              <>
+                <SearchButton onClick={() => setShowSearch(true)} />
+                <SearchModal
+                  query={query}
+                  setQuery={setQuery}
+                  show={showSearch}
+                  onClose={() => setShowSearch(false)}
+                  onSearch={() => {
+                    navigate(`/search?title=${query}`);
+                    setShowSearch(false);
+                  }}
+                />
+              </>
+            )}
+        </div>
       </div>
 
       <main

@@ -42,9 +42,30 @@ function MyPage() {
             color: "white",
             border: "none",
             cursor: "pointer",
+            marginBottom: "0.5rem"
           }}
         >
           정보 수정
+        </button>
+        <button
+          onClick={async () => {
+            await fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
+              method: "POST",
+              credentials: "include",
+            });
+            window.location.href = "/login";
+          }}
+          style={{
+            padding: "0.75rem",
+            width: "100%",
+            fontWeight: "bold",
+            backgroundColor: "#646cff",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          로그아웃
         </button>
       </div>
     </Layout>

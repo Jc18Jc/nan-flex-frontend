@@ -1,16 +1,22 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 
-function HomePage() {
+function SearchPage() {
+  const location = useLocation();
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const title = queryParams.get("title");
   const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const size = 30;
 
-  const fetchMovies = async (pageNumber) => {
+
+  const fetchMovies = async (title, pageNumber) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/filter?page=${pageNumber}&size=${size}`,
+        `${import.meta.env.VITE_BASE_URL}/media/filter?title=${encodeURIComponent(title)}&page=${pageNumber}&size=${size}`,
         {
           credentials: "include",
         }
@@ -19,21 +25,27 @@ function HomePage() {
       const body = await res.json();
       const list = body.data.content;
       setMovies((prev) => [...prev, ...list]);
+      setHasMore(list.length === size);
     } catch (error) {
-      console.error("영화 리스트 로딩 에러:", error);
+      console.error("영화 검색 실패:", error);
     }
   };
 
   useEffect(() => {
-    if (movies.length === 0) {
-      fetchMovies();
-    }
-  }, []);
+    if (!title) return;
+    setMovies([]);
+    setPage(0);
+    fetchMovies(title, 0);
+  }, [title]);
+
+  useEffect(() => {
+    if (!title || page === 0) return;
+    fetchMovies(title, page);
+  }, [page]);
 
   return (
-    <Layout showSearchButton={true}>
-      <h3>모두 보기</h3>
-
+    <Layout showSearchButton = {true}>
+      <h3>검색 결과</h3>
       <div
         style={{
           display: "grid",
@@ -92,8 +104,24 @@ function HomePage() {
           </div>
         ))}
       </div>
+
+      {hasMore && (
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          style={{
+            marginTop: "2rem",
+            padding: "0.75rem 1.5rem",
+            background: "#646cff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          더 보기
+        </button>
+      )}
     </Layout>
   );
 }
-
-export default HomePage;
+export default SearchPage;
