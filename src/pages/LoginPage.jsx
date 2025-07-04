@@ -8,34 +8,34 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new URLSearchParams();
-  formData.append("loginId", loginId);
-  formData.append("password", password);
+    const formData = new URLSearchParams();
+    formData.append("loginId", loginId);
+    formData.append("password", password);
 
-  try {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
 
-    if (res.ok) {
-      navigate("/home"); // ✅ 로그인 성공 시
-    } else {
-      alert("로그인 실패");
+      if (res.ok) {
+        navigate("/home"); // ✅ 로그인 성공 시
+      } else {
+        alert("로그인 실패");
+      }
+    } catch {
+      alert("서버 오류");
     }
-  } catch {
-    alert("서버 오류");
-  }
-};
+  };
 
-return (
-  <Layout showLogout = {false}>
+  return (
+    <Layout showLogout={false}>
       <h1>로그인</h1>
       <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", width: 300 }}>
         <input
@@ -52,11 +52,25 @@ return (
           onChange={(e) => setPassword(e.target.value)}
           style={{ marginBottom: "1rem", padding: "0.5rem" }}
         />
-        <button type="submit" style={{ padding: "0.5rem" }}>
+        <button type="submit" style={{ padding: "0.5rem", marginBottom: "0.5rem" }}>
           로그인
         </button>
+        <button
+          type="button"
+          onClick={() => navigate("/signup")}
+          style={{
+            padding: "0.5rem",
+            background: "transparent",
+            border: "none",
+            color: "gray",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+        >
+          회원가입
+        </button>
       </form>
-      </Layout>
+    </Layout>
   );
 }
 
