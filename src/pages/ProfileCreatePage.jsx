@@ -35,7 +35,7 @@ function ProfileCreatePage() {
   };
 
   return (
-    <Layout showNickName={false}>
+    <Layout showNickName={false} showLogout={true}>
       <div style={{ padding: "2rem", maxWidth: 400, margin: "0 auto" }}>
         <h2>프로필 생성</h2>
 
