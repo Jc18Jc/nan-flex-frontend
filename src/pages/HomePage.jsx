@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import GeneralMediaSection from "../components/GeneralMediaSection";
+import WatchedMediaSection from "../components/WatchedMediaSection";
 
 function HomePage() {
-  const navigate = useNavigate();
-  const [movies, setMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [allMoviesPage, setAllMoviesPage] = useState(0);
+  const [hasMoreAllMovies, setHasMoreAllMovies] = useState(true);
+  const [watchLaterMovies, setWatchLaterMovies] = useState([]);
+  const [watchLaterMoviesPage, setWatchLaterMoviesPage] = useState(0);
+  const [hasMoreWatchLaterMovies, setHasMoreWatchLaterMovies] = useState(true);
+  const [watchedMovies, setWatchedMovies] = useState([]);
+
   const size = 30;
 
-  const fetchMovies = async (pageNumber) => {
+  const fetchAllMovies = async (pageNumber) => {
     try {
       const res = await fetch(
         `${import.meta.env.VITE_BASE_URL}/media/filter?page=${pageNumber}&size=${size}`,
@@ -18,80 +25,81 @@ function HomePage() {
       if (!res.ok) throw new Error("미디어 로딩 실패");
       const body = await res.json();
       const list = body.data.content;
-      setMovies((prev) => [...prev, ...list]);
+      setAllMovies((prev) => [...prev, ...list]);
+      setHasMoreAllMovies(list.length === size);
     } catch (error) {
       console.error("영화 리스트 로딩 에러:", error);
     }
   };
 
-  useEffect(() => {
-    if (movies.length === 0) {
-      fetchMovies();
+    const fetchWatchLaterMovies = async (pageNumber) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/media/later?page=${pageNumber}&size=${size}`,
+        {
+          credentials: "include",
+        }
+      );
+      if (!res.ok) throw new Error("미디어 로딩 실패");
+      const body = await res.json();
+      const list = body.data.content;
+      setWatchLaterMovies((prev) => [...prev, ...list]);
+      setHasMoreWatchLaterMovies(list.length === size);
+    } catch (error) {
+      console.error("영화 리스트 로딩 에러:", error);
     }
+  };
+
+  const fetchWatchedMovies = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/media/history`,
+        {
+          credentials: "include",
+        }
+      );
+      if (!res.ok) throw new Error("미디어 로딩 에러");
+      const body = await res.json();
+      const list = body.data.content;
+      setWatchedMovies(list);
+    } catch (error) {
+      console.error("시청 기록 로딩 에러:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllMovies(allMoviesPage);
+  }, [allMoviesPage]);
+
+  useEffect(() => {
+    fetchWatchLaterMovies(watchLaterMoviesPage);
+  }, [watchLaterMoviesPage]);
+
+  useEffect(() => {
+    fetchWatchedMovies();
   }, []);
+
 
   return (
     <Layout showSearchButton={true}>
-      <h3>모두 보기</h3>
+      <WatchedMediaSection
+        title="시청한 영상"
+        movies={watchedMovies}
+      />
+      
+      <GeneralMediaSection
+        title= "찜한 영상"
+        movies={watchLaterMovies}
+        hasMore={hasMoreWatchLaterMovies}
+        onLoadMore={() => setWatchLaterMoviesPage((p) => p + 1)}
+      />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "1rem",
-        }}
-      >
-        {movies.map((m) => (
-          <div
-            key={m.id}
-            onClick={() => navigate(`/media/${m.id}`)}
-            style={{
-              backgroundColor: "#1e1e1e",
-              borderRadius: "8px",
-              overflow: "hidden",
-              display: "flex",
-              flexDirection: "column",
-              height: "300px",
-              cursor: "pointer",
-              transition: "transform 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
-          >
-            <img
-              src={`${import.meta.env.VITE_BASE_URL}/images/${m.thumbnailName}`}
-              alt={m.title}
-              style={{
-                width: "100%",
-                height: "200px",
-                objectFit: "cover",
-              }}
-            />
-            <div style={{ padding: "0.5rem", flex: 1 }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "0.25rem",
-                }}
-              >
-                <span style={{ fontWeight: "bold", textDecoration: "underline", fontSize: "1rem" }}>
-                  {m.title}
-                </span>
-                <span style={{ fontSize: "0.85rem", color: "#ccc", fontWeight: "normal", textDecoration: "none" }}>
-                  {m.mediaTypeName}
-                </span>
-              </div>
-
-              <div style={{ textAlign: "right", fontSize: "0.85rem", color: "#ccc" }}>
-                <div>{m.ageLimit}+</div>
-                <div>{m.categories?.map(c => c.name).join(" / ")}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <GeneralMediaSection
+        title="모두 보기"
+        movies={allMovies}
+        hasMore={hasMoreAllMovies}
+        onLoadMore={() => setAllMoviesPage((p) => p + 1)}
+      />
     </Layout>
   );
 }
