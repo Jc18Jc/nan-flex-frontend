@@ -13,6 +13,8 @@ function HomePage() {
 
   const [popularMovies, setPopularMovies] = useState([]);
 
+  const [personalizedMovies, setPersonalizedMovies] = useState([]);
+
   const [allMovies, setAllMovies] = useState([]);
   const [allMoviesPage, setAllMoviesPage] = useState(0);
   const [hasMoreAllMovies, setHasMoreAllMovies] = useState(true);
@@ -64,8 +66,25 @@ function HomePage() {
       );
       if (!res.ok) throw new Error("미디어 로딩 에러");
       const body = await res.json();
-      const list = body.data.content;
+      const list = body.data;
       setPopularMovies(list);
+    } catch (error) {
+      console.error("시청 기록 로딩 에러:", error);
+    }
+  };
+
+  const fetchPersonalizedMovies = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/media/personalization`,
+        {
+          credentials: "include",
+        }
+      );
+      if (!res.ok) throw new Error("미디어 로딩 에러");
+      const body = await res.json();
+      const list = body.data;
+      setPersonalizedMovies(list);
     } catch (error) {
       console.error("시청 기록 로딩 에러:", error);
     }
@@ -102,6 +121,10 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
+    fetchPersonalizedMovies();
+  }, []);
+
+  useEffect(() => {
     fetchAllMovies(allMoviesPage);
   }, [allMoviesPage]);
 
@@ -122,6 +145,13 @@ function HomePage() {
       <PopularMediaSection
         title="어제 인기있던 영상"
         movies={popularMovies}
+      />
+
+      <GeneralMediaSection
+        title= "추천 맞춤 영상"
+        movies={personalizedMovies}
+        hasMore={false}
+        onLoadMore={() => null}
       />
 
       <GeneralMediaSection
