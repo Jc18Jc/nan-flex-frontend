@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Layout from "../components/Layout";
-import GeneralMediaSection from "../components/GeneralMediaSection";
-import WatchedMediaSection from "../components/WatchedMediaSection";
-import PopularMediaSection from "../components/PopularMediaSection";
+import Layout from "../../components/Layout";
+import GeneralMediaSection from "../../components/GeneralMediaSection";
+import WatchedMediaSection from "../../components/WatchedMediaSection";
+import PopularMediaSection from "../../components/PopularMediaSection";
 
 function HomePage() {
   const [watchedMovies, setWatchedMovies] = useState([]);

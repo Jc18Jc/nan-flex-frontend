@@ -1,15 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/user/LoginPage";
+import HomePage from "./pages/user/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRedirect from "./components/AuthRedirect";
-import DetailPage from "./pages/detailPage";
-import WatchPage from "./pages/WatchPage";
-import SignupPage from "./pages/SignupPage";
-import ProfileCreatePage from "./pages/ProfileCreatePage";
-import MyPage from "./pages/MyPage";
-import ProfileEditPage from "./pages/ProfileEditPage";
-import SearchPage from "./pages/SearchPage";
+import WatchPage from "./pages/user/WatchPage";
+import SignupPage from "./pages/user/SignupPage";
+import ProfileCreatePage from "./pages/user/ProfileCreatePage";
+import MyPage from "./pages/user/MyPage";
+import ProfileEditPage from "./pages/user/ProfileEditPage";
+import SearchPage from "./pages/user/SearchPage";
+import DetailPage from "./pages/user/DetailPage";
+import AdminRoute from "./components/admin/AdminRoute";
+import AdminMainPage from "./pages/admin/AdminMainPage";
 
 function App() {
   return (
@@ -27,6 +29,10 @@ function App() {
           <Route path="mypage" element = {<MyPage/>}/>
           <Route path="edit-profile" element = {<ProfileEditPage/>}/>
           <Route path="search" element = {<SearchPage/>}/>
+        </Route>
+
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/main" element={<AdminMainPage />} />
         </Route>
 
         <Route path="*" element = {<AuthRedirect/>}/>
