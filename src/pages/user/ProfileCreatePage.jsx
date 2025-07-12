@@ -1,26 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 
-function ProfileEditPage() {
+function ProfileCreatePage() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("male");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const profile = data.data;
-        if (profile) {
-          setNickname(profile.nickname);
-          setGender(profile.gender);
-        }
-      });
-  }, []);
 
   const handleSubmit = async () => {
     if (!nickname) {
@@ -30,7 +16,7 @@ function ProfileEditPage() {
 
     try {
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
-        method: "PATCH",
+        method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nickname, gender }),
@@ -39,9 +25,9 @@ function ProfileEditPage() {
       const result = await res.json();
 
       if (!result.apiHeader.success) {
-        setError(result.message || "프로필 수정 실패");
+        setError(result.message || "프로필 생성 실패");
       } else {
-        navigate("/mypage");
+        navigate("/home");
       }
     } catch {
       setError("서버 오류가 발생했습니다.");
@@ -49,17 +35,17 @@ function ProfileEditPage() {
   };
 
   return (
-    <Layout>
+    <Layout showNickName={false} showLogout={true}>
       <div style={{ padding: "2rem", maxWidth: 400, margin: "0 auto" }}>
-        <h2>프로필 수정</h2>
+        <h2>프로필 생성</h2>
 
         <label>
           닉네임
           <input
             type="text"
+            placeholder="닉네임을 입력하세요"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            placeholder="닉네임을 입력하세요"
             style={{ width: "100%", padding: "0.5rem", marginTop: "0.5rem" }}
           />
         </label>
@@ -69,22 +55,24 @@ function ProfileEditPage() {
           <label style={{ marginLeft: "1rem" }}>
             <input
               type="radio"
-              value="MALE"
-              checked={gender === "MALE"}
-              onChange={() => setGender("MALE")}
+              value="male"
+              checked={gender === "male"}
+              onChange={() => setGender("male")}
             /> 남성
           </label>
           <label style={{ marginLeft: "1rem" }}>
             <input
               type="radio"
-              value="FEMALE"
-              checked={gender === "FEMALE"}
-              onChange={() => setGender("FEMALE")}
+              value="female"
+              checked={gender === "female"}
+              onChange={() => setGender("female")}
             /> 여성
           </label>
         </div>
 
-        {error && <div style={{ color: "red", marginTop: "1rem" }}>{error}</div>}
+        {error && (
+          <div style={{ color: "red", marginTop: "1rem" }}>{error}</div>
+        )}
 
         <button
           onClick={handleSubmit}
@@ -95,11 +83,11 @@ function ProfileEditPage() {
             fontWeight: "bold",
           }}
         >
-          저장하기
+          프로필 생성
         </button>
       </div>
     </Layout>
   );
 }
 
-export default ProfileEditPage;
+export default ProfileCreatePage;

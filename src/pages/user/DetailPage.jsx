@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ShareButton from "../components/ShareButton";
-import Layout from "../components/Layout";
+import ShareButton from "../../components/ShareButton";
+import Layout from "../../components/Layout";
 
 function DetailPage() {
   const { mediaId } = useParams();

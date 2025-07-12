@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 
 function LoginPage() {
   const [loginId, setLoginId] = useState("");
@@ -25,7 +25,16 @@ function LoginPage() {
       });
 
       if (res.ok) {
-        navigate("/home"); // ✅ 로그인 성공 시
+        const sessionRes = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/session`, {
+          credentials: "include"
+        });
+        const sessionData = await sessionRes.json();
+
+        if (sessionData.data?.admin) {
+          navigate("/admin/main")
+        } else {
+          navigate("/home")
+        }
       } else {
         alert("로그인 실패");
       }
