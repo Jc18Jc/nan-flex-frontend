@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 function MediaDetail({ mediaId, onBack, onEdit }) {
   const [media, setMedia] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -21,6 +22,22 @@ function MediaDetail({ mediaId, onBack, onEdit }) {
 
     fetchMedia();
   }, [mediaId]);
+
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("삭제 실패");
+      alert("삭제가 완료되었습니다.");
+      setShowDeleteModal(false);
+      onBack();
+    } catch (err) {
+      console.error("삭제 에러:", err);
+      alert("삭제 실패");
+    }
+  };
 
   if (!media) return <div>로딩 중...</div>;
 
@@ -64,7 +81,68 @@ function MediaDetail({ mediaId, onBack, onEdit }) {
         >
           수정
         </button>
+
+        <button
+          onClick={() => setShowDeleteModal(true)}
+          style={{
+            backgroundColor: "transparent",
+            border: "1px solid #fff",
+            color: "#fff",
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            borderRadius: "4px",
+            marginTop: "0.5rem"
+          }}
+        >
+          삭제
+        </button>
       </div>
+
+      {showDeleteModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "#2c2c2c",
+            padding: "2rem",
+            borderRadius: "8px",
+            boxShadow: "0 2px 20px rgba(0,0,0,0.5)",
+            color: "#fff",
+            zIndex: 1000,
+          }}
+        >
+          <h3>정말 삭제하시겠습니까?</h3>
+          <p>{media.title} 미디어가 삭제됩니다.</p>
+          <div style={{ marginTop: "1.5rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
+            <button
+              onClick={handleDelete}
+              style={{
+                padding: "0.5rem 1rem",
+                background: "#d9534f",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+              }}
+            >
+              삭제
+            </button>
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              style={{
+                padding: "0.5rem 1rem",
+                background: "#555",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+              }}
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
