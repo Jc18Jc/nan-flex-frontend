@@ -1,7 +1,6 @@
-// MediaSection.jsx
 import { useEffect, useState } from "react";
 
-function MediaSection({ onSelectMedia, movies: overrideMovies }) {
+function MediaSection({ onSelectMedia }) {
   const [movies, setMovies] = useState([]);
   const [moviesPage, setMoviesPage] = useState(0);
   const [hasMoreMovies, setHasMoreMovies] = useState(true);
@@ -26,10 +25,10 @@ function MediaSection({ onSelectMedia, movies: overrideMovies }) {
   };
 
   useEffect(() => {
-    if (!overrideMovies) fetchMovies(moviesPage);
-  }, [moviesPage, overrideMovies]);
+    fetchMovies(moviesPage);
+  }, [moviesPage]);
 
-  const renderList = overrideMovies ?? movies;
+  const renderList = movies;
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -81,7 +80,7 @@ function MediaSection({ onSelectMedia, movies: overrideMovies }) {
           ))}
         </div>
 
-        {!overrideMovies && (
+        {(
           <div
             style={{
               marginTop: "2rem",
