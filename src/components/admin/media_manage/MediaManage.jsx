@@ -4,12 +4,15 @@ import MediaUpdate from "./MediaUpdate";
 import MediaDetail from "./MediaDetail";
 import MediaCreate from "./MediaCreate";
 import AdminMediaSearchModal from "./AdminMediaSearchModal";
+import EpisodeManage from "./episode_manage/EpisodeManage";
 
 function MediaManage() {
   const [selectedMediaId, setSelectedMediaId] = useState(null);
+  const [media, setMedia] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [manageEpisode, setManageEpisode] = useState(false);
 
   if (isCreating) {
     return (
@@ -28,12 +31,27 @@ function MediaManage() {
     );
   }
 
+  if (selectedMediaId && manageEpisode) {
+    return (
+      <EpisodeManage
+        mediaId={selectedMediaId}
+        media={media}
+        onBack={() => setManageEpisode(false)}
+        setMedia={setMedia}
+      />
+    );
+  }
+
   if (selectedMediaId) {
     return (
       <MediaDetail
         mediaId={selectedMediaId}
         onBack={() => setSelectedMediaId(null)}
         onEdit={() => setIsEditing(true)}
+        onManageEpisode={(media) => {
+          setMedia(media)
+          setManageEpisode(true)
+        }}
       />
     );
   }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function MediaDetail({ mediaId, onBack, onEdit }) {
+function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
   const [media, setMedia] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -68,9 +68,24 @@ function MediaDetail({ mediaId, onBack, onEdit }) {
         {media && media.categoryNames && (
           <p><strong>카테고리:</strong> {media.categoryNames.join(", ")}</p>
         )}
+
         <button
           style={{
             marginTop: "1.5rem",
+            padding: "0.5rem 1rem",
+            background: "#333",
+            color: "#fff",
+            border: "none",
+            cursor: "pointer",
+          }}
+          onClick={() => onManageEpisode(media)}
+        >
+          에피소드 관리
+        </button>
+
+        <button
+          style={{
+            marginTop: "0.5rem",
             padding: "0.5rem 1rem",
             background: "#333",
             color: "#fff",
