@@ -120,19 +120,15 @@ function DetailPage() {
                   cursor: "pointer"
                 }}
               >
-                <div
+                <img
+                  src={`${import.meta.env.VITE_BASE_URL}/thumbnail/${ep.videoName.replace(/\.[^/.]+$/, "_thumb.jpg")}`}
+                  alt="썸네일"
                   style={{
                     width: "100px",
                     height: "100px",
-                    background: "black",
-                    color: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    objectFit: "cover",
                   }}
-                >
-                  {media.title}
-                </div>
+                />
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div style={{ fontWeight: "bold", textDecoration: "underline" }}>
                     {ep.episodeNumber}화 {ep.title}

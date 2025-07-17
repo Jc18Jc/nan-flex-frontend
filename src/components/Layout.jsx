@@ -3,11 +3,27 @@ import { useNavigate } from "react-router-dom";
 import SearchButton from "./SearchButton";
 import SearchModal from "./SearchModal";
 
-function Layout({ children, showLogout = false, showNickname = true, showSearchButton = false}) {
+function Layout(
+  { 
+    children, 
+    showLogout = false, 
+    showNickname = true, 
+    showSearchButton = false,
+    onClick
+  }
+  ) {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState("");
+
+  const handleHomeClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate("/home");
+    }
+  };
 
   useEffect(() => {
     if (!showNickname) return;
@@ -45,7 +61,7 @@ function Layout({ children, showLogout = false, showNickname = true, showSearchB
         }}
       >
         <div
-          onClick={() => navigate("/home")} 
+          onClick={handleHomeClick} 
           style={{
             fontWeight: "bold", fontSize: "1.5rem", cursor: "pointer" 
           }}
