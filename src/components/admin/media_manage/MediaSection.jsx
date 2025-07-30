@@ -28,8 +28,6 @@ function MediaSection({ onSelectMedia }) {
     fetchMovies(moviesPage);
   }, [moviesPage]);
 
-  const renderList = movies;
-
   return (
     <div style={{ padding: "2rem" }}>
       <div style={{ marginTop: "1.5rem" }}>
@@ -41,7 +39,7 @@ function MediaSection({ onSelectMedia }) {
             marginTop: "1rem",
           }}
         >
-          {renderList.map((m) => (
+          {movies.map((m) => (
             <div
               key={m.id}
               onClick={() => onSelectMedia(m.id)}
