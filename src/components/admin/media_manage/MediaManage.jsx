@@ -6,7 +6,7 @@ import MediaCreate from "./MediaCreate";
 import AdminMediaSearchModal from "./AdminMediaSearchModal";
 import EpisodeManage from "./episode_manage/EpisodeManage";
 
-function MediaManage() {
+export default function MediaManage() {
   const [selectedMediaId, setSelectedMediaId] = useState(null);
   const [media, setMedia] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
@@ -114,5 +114,3 @@ function MediaManage() {
     </div>
   );
 }
-
-export default MediaManage;
