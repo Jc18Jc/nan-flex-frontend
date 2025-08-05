@@ -50,7 +50,7 @@ function MediaSection({ onSelectMedia }) {
               }}
             >
               <img
-                src={`${import.meta.env.VITE_BASE_URL}/images/${m.thumbnailName}`}
+                src={m.imageUrl}
                 alt={m.title}
                 style={{
                   width: "100px",

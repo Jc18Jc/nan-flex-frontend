@@ -63,7 +63,7 @@ function DetailPage() {
       <div style={{ padding: "2rem" }}>
         <div style={{ position: "relative" }}>
           <img
-            src={`${import.meta.env.VITE_BASE_URL}/images/${media.thumbnailName}`}
+            src={media.imageUrl}
             alt={media.title}
             style={{ width: "100%", height: "300px", objectFit: "cover" }}
           />
@@ -121,7 +121,7 @@ function DetailPage() {
                 }}
               >
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/thumbnail/${ep.videoName.replace(/\.[^/.]+$/, "_thumb.jpg")}`}
+                  src={ep.thumbnailUrl}
                   alt="썸네일"
                   style={{
                     width: "100px",

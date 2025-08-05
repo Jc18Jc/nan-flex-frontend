@@ -98,9 +98,8 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
           }}
         >
           {media.episodes.map((ep) => (
-            <div>
+            <div key={ep.id}>
               <div
-                key={ep.id}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -114,7 +113,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
               >
                 <div style={{ display: "flex", gap: "1rem", flex: 1 }}>
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/thumbnail/${ep.videoName.replace(/\.[^/.]+$/, "_thumb.jpg")}`}
+                    src={ep.thumbnailUrl}
                     alt="썸네일"
                     style={{
                       width: "100px",
@@ -177,7 +176,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
               {selectEpisodeId && selectEpisodeId === ep.id && (
                 <div>
                   <video controls style={{width: "640px", height: "360px"}}>
-                    <source src={`${import.meta.env.VITE_BASE_URL}/videos/${ep.videoName}`} type="video/mp4" />
+                    <source src={ep.videoUrl} type="video/mp4" />
                     브라우저가 video 태그를 지원하지 않습니다.
                   </video>
                 </div>

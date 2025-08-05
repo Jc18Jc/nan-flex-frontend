@@ -31,7 +31,7 @@ function WatchedMediaSection({ title, movies }) {
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
           >
             <img
-              src={`${import.meta.env.VITE_BASE_URL}/images/${m.thumbnailName}`}
+              src={m.imageUrl}
               alt={m.title}
               style={{
                 width: "100%",
