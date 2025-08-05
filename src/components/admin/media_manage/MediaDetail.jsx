@@ -55,11 +55,12 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
           }}
         >
         <h2>{media.title}</h2>
+        
         <img
-          src={`${import.meta.env.VITE_BASE_URL}/images/${media.thumbnailName}`}
+          src={media.imageUrl}
           alt={media.title}
           style={{ width: "200px", height: "200px", objectFit: "cover" }}
-        />
+        /> 
         <p><strong>유형:</strong> {media.mediaTypeName}</p>
         <p><strong>국가:</strong> {media.country}</p>
         <p><strong>출시 연도:</strong> {media.releaseYear}</p>

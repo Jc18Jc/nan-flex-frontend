@@ -114,7 +114,7 @@ function AdminMediaSearchModal({ show, onClose, onSelect }) {
             onMouseLeave={(e) => (e.currentTarget.style.background = "#1e1e1e")}
           >
             <img
-              src={`${import.meta.env.VITE_BASE_URL}/images/${media.thumbnailName}`}
+              src={media.imageUrl}
               alt={media.title}
               style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "4px" }}
             />
