@@ -15,7 +15,7 @@ function ProfileCreatePage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+      const res = await fetch(`/api/profile`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

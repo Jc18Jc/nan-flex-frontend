@@ -8,7 +8,7 @@ function ProtectedRoute() {
   useEffect(() => {
     const checkAuthAndProfile = async () => {
       try {
-        const sessionRes = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/session`, {
+        const sessionRes = await fetch(`/api/auth/session`, {
           credentials: "include",
         });
         if (!sessionRes.ok) {
@@ -16,7 +16,7 @@ function ProtectedRoute() {
           return;
         }
 
-        const profileRes = await fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+        const profileRes = await fetch(`/api/profile`, {
           credentials: "include",
         });
 

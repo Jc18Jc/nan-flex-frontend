@@ -9,7 +9,7 @@ function ProfileEditPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+    fetch(`/api/profile`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -29,7 +29,7 @@ function ProfileEditPage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+      const res = await fetch(`/api/profile`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

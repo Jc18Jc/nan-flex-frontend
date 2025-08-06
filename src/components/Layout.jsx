@@ -27,7 +27,7 @@ function Layout(
 
   useEffect(() => {
     if (!showNickname) return;
-    fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+    fetch(`/api/profile`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -79,7 +79,7 @@ function Layout(
             { showLogout && (
               <button
                 onClick={async () => {
-                  await fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
+                  await fetch(`/api/auth/logout`, {
                     method: "POST",
                     credentials: "include",
                   });

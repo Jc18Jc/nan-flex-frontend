@@ -11,7 +11,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   const isSearchMode = profilesFromParent !== null || noSearchResult;
 
   const fetchProfiles = async (pageNumber) => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile/all?page=${pageNumber}&size=30`, {
+    const res = await fetch(`/api/profile/all?page=${pageNumber}&size=30`, {
       credentials: "include",
     });
 
@@ -24,7 +24,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   };
   
   const handleDelete = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile/${manageProfile.authId}`, {
+    const res = await fetch(`/api/profile/${manageProfile.authId}`, {
       credentials: "include",
       method: "DELETE"
     });
@@ -40,7 +40,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   }
 
   const handleRestore = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile/restore/${manageProfile.authId}`, {
+    const res = await fetch(`/api/profile/restore/${manageProfile.authId}`, {
       credentials: "include",
       method: "PUT"
     })

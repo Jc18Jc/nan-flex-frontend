@@ -8,7 +8,7 @@ function MediaSection({ onSelectMedia }) {
   const fetchMovies = async (pageNumber) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/filter?page=${pageNumber}&size=30&sort=createdAt,desc`,
+        `/api/media/filter?page=${pageNumber}&size=30&sort=createdAt,desc`,
         {
           credentials: "include",
         }

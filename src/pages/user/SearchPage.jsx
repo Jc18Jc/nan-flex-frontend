@@ -16,7 +16,7 @@ function SearchPage() {
   const fetchMovies = async (title, pageNumber) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/filter?title=${encodeURIComponent(title)}&page=${pageNumber}&size=${size}`,
+        `/api/media/filter?title=${encodeURIComponent(title)}&page=${pageNumber}&size=${size}`,
         {
           credentials: "include",
         }

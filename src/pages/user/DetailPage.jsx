@@ -12,7 +12,7 @@ function DetailPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+    fetch(`/api/media/${mediaId}`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -25,7 +25,7 @@ function DetailPage() {
       });
 
 
-    fetch(`${import.meta.env.VITE_BASE_URL}/later/${mediaId}`, {
+    fetch(`/api/later/${mediaId}`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -82,13 +82,13 @@ function DetailPage() {
                 onClick={async () => {
                   try {
                     if (watchLater) {
-                      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/later/${mediaId}`, {
+                      const res = await fetch(`/api/later/${mediaId}`, {
                         method: "DELETE",
                         credentials: "include",
                       });
                       if (res.ok) setWatchLater(false);
                     } else {
-                      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/later`, {
+                      const res = await fetch(`/api/later`, {
                         method: "POST",
                         credentials: "include",
                         headers: {

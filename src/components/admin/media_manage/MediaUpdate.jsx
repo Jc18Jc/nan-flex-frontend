@@ -21,7 +21,7 @@ function MediaUpdate({ mediaId, onBack }) {
   const mediaTypes = ["드라마", "예능", "영화"];
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+    fetch(`/api/media/${mediaId}`, {
       credentials: "include",
     })
       .then(res => res.json())
@@ -71,7 +71,7 @@ function MediaUpdate({ mediaId, onBack }) {
     if (thumbnailFile) {
       formData.append("file", thumbnailFile);
     }
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+    const res = await fetch(`/api/media/${mediaId}`, {
       method: "PUT",
       credentials: "include",
       body: formData,

@@ -15,7 +15,7 @@ function LoginPage() {
     formData.append("password", password);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+      const res = await fetch(`/api/auth/login`, {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -25,7 +25,7 @@ function LoginPage() {
       });
 
       if (res.ok) {
-        const sessionRes = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/session`, {
+        const sessionRes = await fetch(`/api/auth/session`, {
           credentials: "include"
         });
         const sessionData = await sessionRes.json();

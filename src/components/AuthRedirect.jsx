@@ -5,7 +5,7 @@ function AuthRedirect() {
   const [redirectPath, setRedirectPath] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/auth/session`, {
+    fetch(`/api/auth/session`, {
       credentials: "include",
     })
       .then((res) => {

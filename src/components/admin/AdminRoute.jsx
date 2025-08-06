@@ -8,7 +8,7 @@ function AdminRoute() {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const sessionRes = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/session`, {
+        const sessionRes = await fetch(`/api/auth/session`, {
           credentials: "include",
         });
 

@@ -31,7 +31,7 @@ const [form, setForm] = useState({
     formData.append("file", form.file);
     formData.append("mediaId", mediaId)
 
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/episode`, {
+    const res = await fetch(`/api/episode`, {
       method: "POST",
       credentials: "include",
       body: formData,

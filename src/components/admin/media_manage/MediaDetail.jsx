@@ -7,7 +7,7 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
   useEffect(() => {
     const fetchMedia = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+        const res = await fetch(`/api/media/${mediaId}`, {
           credentials: "include",
         });
         const result = await res.json();
@@ -25,7 +25,7 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/media/${mediaId}`, {
+      const res = await fetch(`/api/media/${mediaId}`, {
         method: "DELETE",
         credentials: "include",
       });

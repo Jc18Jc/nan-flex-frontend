@@ -13,7 +13,7 @@ function AdminMediaSearchModal({ show, onClose, onSelect }) {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/filter?title=${encodeURIComponent(query)}`,
+        `/api/media/filter?title=${encodeURIComponent(query)}`,
         { credentials: "include" }
       );
       if (!res.ok) throw new Error("검색 실패");
