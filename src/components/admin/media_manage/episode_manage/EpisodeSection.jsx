@@ -16,7 +16,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
   }
 
   const handleDeleteEpisode = async (id) => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/episode/${id}`, {
+    const res = await fetch(`/api/episode/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -44,7 +44,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
       formData.append("file", file)
     }
 
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/episode/${editingEpisodeId}`, {
+    const res = await fetch(`/api/episode/${editingEpisodeId}`, {
       method: "PUT",
       body: formData,
       credentials: "include",

@@ -24,7 +24,7 @@ function HomePage() {
   const fetchWatchedMovies = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/history`,
+        `/api/media/history`,
         {
           credentials: "include",
         }
@@ -41,7 +41,7 @@ function HomePage() {
   const fetchWatchLaterMovies = async (pageNumber) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/later?page=${pageNumber}&size=${size}`,
+        `/api/media/later?page=${pageNumber}&size=${size}`,
         {
           credentials: "include",
         }
@@ -59,7 +59,7 @@ function HomePage() {
   const fetchPopularMovies = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/popular`,
+        `/api/media/popular`,
         {
           credentials: "include",
         }
@@ -76,7 +76,7 @@ function HomePage() {
   const fetchPersonalizedMovies = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/personalization`,
+        `/api/media/personalization`,
         {
           credentials: "include",
         }
@@ -93,7 +93,7 @@ function HomePage() {
   const fetchAllMovies = async (pageNumber) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/media/filter?page=${pageNumber}&size=${size}`,
+        `/api/media/filter?page=${pageNumber}&size=${size}`,
         {
           credentials: "include",
         }

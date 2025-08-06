@@ -11,7 +11,7 @@ export default function UserManage() {
     setNoSearchResult(false);
     setShowSearch(false);
     
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/profile/filter?${query}`, {
+    const res = await fetch(`/api/profile/filter?${query}`, {
       credentials: "include",
     });
     const body = await res.json();

@@ -62,7 +62,7 @@ function MediaCreate({ onBack }) {
     });
     formData.append("file", thumbnailFile);
 
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/media`, {
+    const res = await fetch(`/api/media`, {
       method: "POST",
       credentials: "include",
       body: formData,

@@ -8,7 +8,7 @@ function WatchPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/episode/${episodeId}`, {
+    fetch(`/api/episode/${episodeId}`, {
       credentials: "include",
     })
       .then(res => res.json())

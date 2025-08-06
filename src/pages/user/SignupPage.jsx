@@ -31,7 +31,7 @@ const handleJoin = async () => {
   const birthDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/join`, {
+    const res = await fetch(`/api/auth/join`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
