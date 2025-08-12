@@ -53,7 +53,7 @@ function MyPage() {
               method: "POST",
               credentials: "include",
             });
-            window.location.href = "/login";
+            window.location.href = "/home/login";
           }}
           style={{
             padding: "0.75rem",

@@ -83,7 +83,7 @@ function Layout(
                     method: "POST",
                     credentials: "include",
                   });
-                  window.location.href = "/login";
+                  window.location.href = "/home/login";
                 }}
                 style={{
                   background: "#000",

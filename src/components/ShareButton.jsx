@@ -17,7 +17,7 @@ function ShareButton() {
     <div style={{ position: "relative" }}>
       <button onClick={handleCopy}>
         <img
-          src="/src/assets/share.png"
+          src="/home/images/share.png"
           alt="공유"
           style={{ width: "24px", height: "24px" }}
         />

@@ -78,7 +78,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
         }}>
           <h2>{media.title}</h2>
           <img
-            src="/src/assets/add.png"
+            src="/home/images/add.png"
             alt="추가"
             style={{ 
               width: "36px", 
@@ -158,14 +158,14 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
                   <div style={{ display: "flex", gap: "0.5rem" }} onClick={(e) => e.stopPropagation()}>
                     <button onClick={() => setEditingEpisodeId(ep.id)}>
                       <img
-                        src="/src/assets/update.png"
+                        src="/home/images/update.png"
                         alt="수정"
                         style={{ width: "24px", height: "24px" }}
                       />
                     </button>
                     <button onClick={() => setConfirmDeleteId(ep.id)}>
                       <img
-                        src="/src/assets/delete.png"
+                        src="/home/images/delete.png"
                         alt="삭제"
                         style={{ width: "24px", height: "24px" }}
                       />

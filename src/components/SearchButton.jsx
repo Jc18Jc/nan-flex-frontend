@@ -11,7 +11,7 @@ function SearchButton({ onClick }) {
       }}
     >
       <img
-        src="/src/assets/search.png"
+        src="/home/images/search.png"
         alt="검색"
         style={{ width: "24px", height: "24px" }}
       />

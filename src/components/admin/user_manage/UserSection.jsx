@@ -103,7 +103,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
               <div style={{ display: "flex", justifyContent: "flex-end"}}>
                 {profile.removedAt != null ? 
                   <img
-                    src="/src/assets/restore.png"
+                    src="/home/images/restore.png"
                     alt="복구"
                     style={{ width: "12px", height: "12px" }}
                     onClick={() => {
@@ -112,7 +112,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
                     }}
                   /> :
                   <img
-                    src="/src/assets/x.png"
+                    src="/home/images/x.png"
                     alt="삭제"
                     style={{ width: "12px", height: "12px" }}
                     onClick={() => {
@@ -125,12 +125,12 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
               <div style={{ display: "flex", gap: "1rem" }}>
                 {profile.gender === "MALE" ? 
                   <img
-                    src="/src/assets/user_male.png"
+                    src="/home/images/user_male.png"
                     alt="남성 유저"
                     style={{ width: "100px", height: "100px", objectFit: "cover" }}
                   /> :
                   <img
-                    src="/src/assets/user_female.png"
+                    src="/home/images/user_female.png"
                     alt="여성 유저"
                     style={{ width: "100px", height: "100px", objectFit: "cover" }}
                   />
