@@ -15,7 +15,7 @@ import AdminMainPage from "./pages/admin/AdminMainPage";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/home">
       <Routes>
         <Route path="/" element={<AuthRedirect />} />
         <Route path="login" element={<LoginPage />} />
@@ -32,7 +32,7 @@ function App() {
         </Route>
 
         <Route element={<AdminRoute />}>
-          <Route path="/admin/main" element={<AdminMainPage />} />
+          <Route path="admin/main" element={<AdminMainPage />} />
         </Route>
 
         <Route path="*" element = {<AuthRedirect/>}/>
