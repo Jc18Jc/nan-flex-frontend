@@ -13,6 +13,8 @@ function PopularMediaSection({ title, movies }) {
           gap: "1rem",
         }}
       >
+        {movies.length===0 && (<div style={{ marginLeft: '0.5rem', color: 'grey'}}>어제 시청된 영상이 없습니다.</div>)}
+
         {movies.map((m, index) => (
           <div style={{ position: "relative" }} key={m.id}>
             <div

@@ -51,7 +51,12 @@ function LoginPage() {
           type="text"
           placeholder="아이디"
           value={loginId}
-          onChange={(e) => setLoginId(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^[A-Za-z0-9]*$/.test(value)) {
+              setLoginId(value);
+            }
+          }}
           style={{ marginBottom: "1rem", padding: "0.5rem" }}
         />
         <input

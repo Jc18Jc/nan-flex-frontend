@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function GeneralMediaSection({ title, movies, hasMore, onLoadMore}) {
+function GeneralMediaSection({ title, movies, hasMore, onLoadMore, emptyPhrase}) {
   const navigate = useNavigate()
 
   return (
@@ -14,6 +14,8 @@ function GeneralMediaSection({ title, movies, hasMore, onLoadMore}) {
             gap: "1rem",
           }}
         >
+          {movies.length===0 && (<div style={{ marginLeft: '0.5rem', color: 'grey'}}>{`${emptyPhrase}`}</div>)}
+
           {movies.map((m) => (
             <div
               key={m.id}

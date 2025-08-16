@@ -15,47 +15,52 @@ function JoinPage() {
   const [certified, setCertified] = useState(false);
   const [error, setError] = useState("");
 
-const handleJoin = async () => {
-  setError("");
+  const handleJoin = async () => {
+    setError("");
 
-  if (!loginId || !password || !passwordConfirm) {
-    setError("모든 필드를 입력해주세요.");
-    return;
-  }
-
-  if (password !== passwordConfirm) {
-    setError("비밀번호가 일치하지 않습니다.");
-    return;
-  }
-
-  const birthDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-  try {
-    const res = await fetch(`/api/auth/join`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ loginId, password, birthDate }),
-    });
-
-    const result = await res.json();
-
-    if (!result.apiHeader.success) {
-      const code = result.apiHeader.code;
-      if (code === 409) {
-        setError("이미 사용 중인 아이디입니다.");
-      } else {
-        setError(result.message || "회원가입 실패");
-      }
-    } else {
-      alert("회원가입이 완료되었습니다.");
-      navigate("/login");
+    if (!loginId || !password || !passwordConfirm) {
+      setError("모든 필드를 입력해주세요.");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    setError("서버 오류가 발생했습니다.");
-  }
-};
+
+    if (!certified) {
+      setError("인증받기 버튼을 눌러주세요. (누르기만 하면 됩니다.)");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    const birthDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    try {
+      const res = await fetch(`/api/auth/join`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ loginId, password, birthDate }),
+      });
+
+      const result = await res.json();
+
+      if (!result.apiHeader.success) {
+        const code = result.apiHeader.code;
+        if (code === 409) {
+          setError("이미 사용 중인 아이디입니다.");
+        } else {
+          setError(result.message || "회원가입 실패");
+        }
+      } else {
+        alert("회원가입이 완료되었습니다.");
+        navigate("/login");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("서버 오류가 발생했습니다.");
+    }
+  };
 
   const handleCertify = () => setCertified(true);
 
@@ -71,7 +76,12 @@ const handleJoin = async () => {
               type="text"
               placeholder="아이디를 입력하세요"
               value={loginId}
-              onChange={(e) => setLoginId(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^[A-Za-z0-9]*$/.test(value)) {
+                  setLoginId(value);
+                }
+              }}
               style={{ padding: "0.5rem", width: "100%" }}
             />
           </label>

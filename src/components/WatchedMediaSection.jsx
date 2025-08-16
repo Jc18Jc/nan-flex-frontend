@@ -13,6 +13,7 @@ function WatchedMediaSection({ title, movies }) {
           gap: "1rem",
         }}
       >
+        {movies.length===0 && (<div style={{ marginLeft: '0.5rem', color: 'grey'}}>시청 기록이 없습니다.</div>)}
         {movies.map((m) => (
           <div
             key={m.id}

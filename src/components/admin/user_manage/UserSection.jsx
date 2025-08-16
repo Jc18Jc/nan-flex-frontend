@@ -89,15 +89,16 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
             <div
               key={profile.authId}
               style={{
-                flex: "1 1 30%",
-                maxWidth: "32%",
-                minWidth: "250px",
+                flex: "1 1 45%",
+                maxWidth: "40%",
+                minWidth: "350px",
                 border: "1px solid #444",
                 padding: "1rem",
                 borderRadius: "8px",
                 cursor: "pointer",
                 backgroundColor: "#1e1e1e",
                 boxSizing: "border-box",
+                margin: "8px"
               }}
             >
               <div style={{ display: "flex", justifyContent: "flex-end"}}>
