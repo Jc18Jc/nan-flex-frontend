@@ -140,6 +140,7 @@ function HomePage() {
         movies={watchLaterMovies}
         hasMore={hasMoreWatchLaterMovies}
         onLoadMore={() => setWatchLaterMoviesPage((p) => p + 1)}
+        emptyPhrase = "찜한 영상이 없습니다."
       />
 
       <PopularMediaSection
@@ -152,6 +153,7 @@ function HomePage() {
         movies={personalizedMovies}
         hasMore={false}
         onLoadMore={() => null}
+        emptyPhrase= "시청 기록이 필요합니다."
       />
 
       <GeneralMediaSection
@@ -159,6 +161,7 @@ function HomePage() {
         movies={allMovies}
         hasMore={hasMoreAllMovies}
         onLoadMore={() => setAllMoviesPage((p) => p + 1)}
+        emptyPhrase= "영상이 없습니다."
       />
     </Layout>
   );
