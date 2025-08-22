@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useAdminSession } from "../AdminContext";
 
 function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
   const [media, setMedia] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const { session } = useAdminSession();
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -10,8 +13,8 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
         const res = await fetch(`/api/media/${mediaId}`, {
           credentials: "include",
         });
-        const result = await res.json();
-        const data = result.data;
+        const body = await res.json();
+        const data = body.data;
 
         const categoryNames = data.categories.map((category) => category.name);
         setMedia({ ...data, categoryNames });
@@ -24,6 +27,12 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
   }, [mediaId]);
 
   const handleDelete = async () => {
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      setShowDeleteModal(false);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/media/${mediaId}`, {
         method: "DELETE",
@@ -69,6 +78,7 @@ function MediaDetail({ mediaId, onBack, onEdit, onManageEpisode }) {
         {media && media.categoryNames && (
           <p><strong>카테고리:</strong> {media.categoryNames.join(", ")}</p>
         )}
+        <p><strong>조회수:</strong> {media.totalViewCount }</p>
 
         <button
           style={{

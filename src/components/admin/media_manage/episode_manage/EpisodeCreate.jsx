@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAdminSession } from "../../AdminContext";
 
 export default function EpisodeCreate({ mediaId, onBack, onSuccess }) {
 const [form, setForm] = useState({
@@ -7,6 +8,8 @@ const [form, setForm] = useState({
     file: null,
   });
   const [showModal, setShowModal] = useState(false);
+
+  const { session } = useAdminSession();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -19,6 +22,11 @@ const [form, setForm] = useState({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      return;
+    }
 
     if (!form.episodeNumber || !form.title || !form.file) {
       alert("모든 항목을 입력해야 합니다.");
@@ -37,20 +45,28 @@ const [form, setForm] = useState({
       body: formData,
     });
 
-    if (res.ok) {
-      const result = await res.json();
-      if (!result.apiHeader.success || result.apiHeader.code === 400) {
-        alert("중복된 회차 입력으로 인해 실패했습니다.");
-        return;
-      }
 
+    if (res.ok) {
+      const body = await res.json();
       setShowModal(true);
       setForm({ episodeNumber: "", title: "", file: null });
-
-      const newMedia = result.data;
+      const newMedia = body.data;
       onSuccess(newMedia);
     } else {
-      alert("등록 실패");
+      const errorBody = await res.json().catch(() => null);
+
+      if (errorBody?.apiHeader) {
+        alert(errorBody.message || "요청 처리 실패");
+
+        console.error("API 실패:", {
+          code: errorBody.apiHeader.code,
+          codeName: errorBody.apiHeader.codeName,
+          message: errorBody.message,
+        });
+      } else {
+        alert(`요청 실패 (HTTP ${res.status})`);
+        console.error("HTTP 오류:", res.status, res.statusText);
+      }
     }
   };
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAdminSession } from "../AdminContext";
 
 function MediaCreate({ onBack }) {
   const [form, setForm] = useState({
@@ -13,10 +14,11 @@ function MediaCreate({ onBack }) {
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-
   const categoryOptions = ["코미디", "공포", "로맨스", "SF", "액션", "가족", "스포츠", "뮤지컬", "판타지", "애니메이션"];
   const ageOptions = [0, 7, 12, 15, 19];
   const mediaTypes = ["드라마", "예능", "영화"];
+
+  const { session } = useAdminSession();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,6 +49,12 @@ function MediaCreate({ onBack }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      return;
+    }
+  
     if (!validateForm()) {
       alert("모든 필드를 입력해주세요.");
       return;

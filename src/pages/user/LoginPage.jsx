@@ -5,6 +5,7 @@ import Layout from "../../components/Layout";
 function LoginPage() {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -30,7 +31,7 @@ function LoginPage() {
         });
         const sessionData = await sessionRes.json();
 
-        if (sessionData.data?.admin) {
+        if (sessionData.data?.admin || sessionData.data?.manager) {
           navigate("/admin/main")
         } else {
           navigate("/home")
@@ -66,6 +67,14 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           style={{ marginBottom: "1rem", padding: "0.5rem" }}
         />
+        <label style={{ marginBottom: 12 }}>
+          <input
+            type="checkbox"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+          />
+          로그인 상태 유지
+        </label>
         <button type="submit" style={{ padding: "0.5rem", marginBottom: "0.5rem" }}>
           로그인
         </button>
