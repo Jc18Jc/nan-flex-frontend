@@ -22,10 +22,10 @@ function ProfileCreatePage() {
         body: JSON.stringify({ nickname, gender }),
       });
 
-      const result = await res.json();
+      const body = await res.json();
 
-      if (!result.apiHeader.success) {
-        setError(result.message || "프로필 생성 실패");
+      if (!body.apiHeader.success) {
+        setError(body.message || "프로필 생성 실패");
       } else {
         navigate("/home");
       }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAdminSession } from "../AdminContext";
 
 export default function UserSection({profilesFromParent, noSearchResult}) {
   const [profiles, setProfiles] = useState([]);
@@ -6,11 +7,14 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   const [profilesPage, setProfilesPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRestoreModal, setShowRestoreModal] = useState(false);
-  const [manageProfile, setManageProfile] = useState(null);
-  
+  const [manageProfile, setManageProfile] = useState(null);  
+
   const isSearchMode = profilesFromParent !== null || noSearchResult;
 
+  const { session } = useAdminSession();
+
   const fetchProfiles = async (pageNumber) => {
+
     const res = await fetch(`/api/profile/all?page=${pageNumber}&size=30`, {
       credentials: "include",
     });
@@ -24,6 +28,12 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   };
   
   const handleDelete = async () => {
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      setShowDeleteModal(false);
+      return;
+    }
+
     const res = await fetch(`/api/profile/${manageProfile.authId}`, {
       credentials: "include",
       method: "DELETE"
@@ -40,6 +50,11 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
   }
 
   const handleRestore = async () => {
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      setShowDeleteModal(false);
+      return;
+    }
     const res = await fetch(`/api/profile/restore/${manageProfile.authId}`, {
       credentials: "include",
       method: "PUT"
@@ -143,6 +158,7 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
                   <div>닉네임: {profile.nickname}</div>
                   <div>성별: {profile.gender === "MALE" ? "남성" : "여성"}</div>
                   <div>생일: {profile.birthDate} &#40;{profile.age}세&#41;</div>
+                  <div>마지막 로그인: {formatTimeAgo(profile.lastLoginAt)}</div>
                   <div>조회수: {profile.viewCount}</div>
                   <div>
                     선호 카테고리:
@@ -276,4 +292,36 @@ export default function UserSection({profilesFromParent, noSearchResult}) {
       </div>
     </div>
   );
+}
+
+function formatTimeAgo(lastLoginAt) {
+  if(!lastLoginAt) {
+    return "기록없음"
+  }
+
+  const now = new Date();
+  const last = new Date(lastLoginAt);
+
+  const diffMs = now - last;
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  if (diffSec < 60) {
+    return `${diffSec}초 전`;
+  } else if (diffMin < 60) {
+    return `${diffMin}분 전`;
+  } else if (diffHour < 24) {
+    return `${diffHour}시간 전`;
+  } else if (diffDay < 30) {
+    return `${diffDay}일 전`;
+  } else {
+    const diffMonth = Math.floor(diffDay / 30);
+    if (diffMonth < 12) {
+      return `${diffMonth}달 전`;
+    }
+    const diffYear = Math.floor(diffMonth / 12);
+    return `${diffYear}년 전`;
+  }
 }

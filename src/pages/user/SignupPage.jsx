@@ -43,18 +43,17 @@ function JoinPage() {
         body: JSON.stringify({ loginId, password, birthDate }),
       });
 
-      const result = await res.json();
-
-      if (!result.apiHeader.success) {
-        const code = result.apiHeader.code;
-        if (code === 409) {
-          setError("이미 사용 중인 아이디입니다.");
-        } else {
-          setError(result.message || "회원가입 실패");
-        }
-      } else {
+      if (res.ok) {
         alert("회원가입이 완료되었습니다.");
         navigate("/login");
+      } else {
+        const errorBody = await res.json().catch(() => null);
+        const msg =
+          errorBody?.message ||
+          (res.status === 409
+            ? "이미 사용 중인 아이디입니다."
+            : `요청 실패 (HTTP ${res.status})`);
+        setError(msg);
       }
     } catch (err) {
       console.error(err);

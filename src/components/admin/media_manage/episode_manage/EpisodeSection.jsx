@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useAdminSession } from "../../AdminContext";
 
 export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
   const [editingEpisodeId, setEditingEpisodeId] = useState(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [selectEpisodeId, setSelectedEpisodeId] = useState(null);
+
+  const { session } = useAdminSession();
 
   const handleMediaClick = (id) => {
     if (selectEpisodeId === null) {
@@ -16,27 +19,32 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
   }
 
   const handleDeleteEpisode = async (id) => {
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      return;
+    }
+
     const res = await fetch(`/api/episode/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
     if (res.ok) {
-      const result = await res.json();
-      if (!result.apiHeader.success || result.apiHeader.code === 404) {
-        alert("삭제 실패");
-        return;
-      }
-
       const updatedEpisodes = media.episodes.filter((ep) => ep.id !== id);
       setMedia({ ...media, episodes: updatedEpisodes });
 
       alert("삭제 완료");
     } else {
-      alert("삭제 실패");
+      const errBody = await res.json().catch(() => null);
+      alert(errBody?.message || `삭제 실패 (${res.status})`);
     }
   }
 
   const handleSaveEdit = async (episodeNumber, title, file) => {
+   if (!session.admin) {
+      alert("권한이 없습니다.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("episodeNumber", episodeNumber);
     formData.append("title", title);
@@ -51,8 +59,8 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
     })
 
     if (res.ok) {
-      const result = await res.json();
-      const updatedEpisode = result.data;
+      const body = await res.json();
+      const updatedEpisode = body.data;
 
       const updatedEpisodes = media.episodes
         .map((ep) => (ep.id === updatedEpisode.id ? updatedEpisode : ep))
@@ -150,6 +158,7 @@ export default function EpisodeSection({ media, onCreate, onBack, setMedia }) {
                       </div>
                       <div>{Math.floor(ep.duration / 60)}분</div>
                       <div>등록: {ep.releaseDate}</div>
+                      <div>조회수: {ep.viewCount}</div>
                     </div>
                   )}
                 </div>

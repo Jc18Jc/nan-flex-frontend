@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAdminSession } from "../AdminContext";
 
 function MediaUpdate({ mediaId, onBack }) {
   const [form, setForm] = useState({
@@ -19,6 +20,8 @@ function MediaUpdate({ mediaId, onBack }) {
   ];
   const ageOptions = [0, 7, 12, 15, 19];
   const mediaTypes = ["드라마", "예능", "영화"];
+
+  const { session } = useAdminSession();
 
   useEffect(() => {
     fetch(`/api/media/${mediaId}`, {
@@ -59,7 +62,13 @@ function MediaUpdate({ mediaId, onBack }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
+    
+    if (!session.admin) {
+      alert("권한이 없습니다.");
+      return;
+    }
+
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => {
       if (Array.isArray(value)) {

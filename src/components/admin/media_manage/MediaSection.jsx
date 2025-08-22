@@ -73,6 +73,17 @@ function MediaSection({ onSelectMedia }) {
                 >
                   {m.title}
                 </div>
+                <div
+                style={{
+                  color: "gray"
+                }}>
+                  <div>
+                    장르: {m.mediaTypeName}
+                  </div>
+                  <div>
+                    조회수: {m.totalViewCount}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
